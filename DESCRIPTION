@@ -13,9 +13,9 @@ Depends:
 License: MIT + file LICENSE
 LazyData: true
 Imports:
+    devtools,
     memoise,
     methods
 Suggests:
-    testthat,
-    devtools
+    testthat
 RoxygenNote: 6.0.1
