@@ -3,3 +3,5 @@
 .lintr
 .travis.yml
 .gitignore
+tests/testthat/fakepackages/allexportedchecked/.Rbuildignore
+tests/testthat/fakepackages/notallexportedchecked/.Rbuildignore
