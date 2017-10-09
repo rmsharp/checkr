@@ -8,6 +8,7 @@
 #'     post = list(result %is% numeric),
 #'     function(x, y) { x + y })
 #' @return The original function, but also of class validated_function, with added validations.
+#' @importFrom utils head
 #' @export
 ensure <- function(checker_fn, preconditions = list(), postconditions = list()) {
   if (methods::is(checker_fn, "validated_function")) {
@@ -27,10 +28,10 @@ ensure <- function(checker_fn, preconditions = list(), postconditions = list()) 
     # or error
     missing_formals <- setdiff(formals, names(args))
     if (is.null(names(args))) {
-      names(args) <- head(formals, length(args))
+      names(args) <- utils::head(formals, length(args))
     } else {
       empty_names <- vapply(names(args), checkr::is.empty, logical(1))
-      names(args)[empty_names] <- head(missing_formals, sum(empty_names))
+      names(args)[empty_names] <- utils::head(missing_formals, sum(empty_names))
     }
 
     # Get all the non-empty arguments to impute missing arguments.
