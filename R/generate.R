@@ -155,7 +155,7 @@ test_objects_ <- function(objects) {
   # make lists that randomly mix all of the above
   testing_frame <- append(testing_frame,
     lapply(seq(LIST_SIZE), function(n) {
-      tail(lapply(unname(
+      utils::tail(lapply(unname(
         Map(c, sample(testing_frame, 1), sample(testing_frame, 1))
       ), sample), LIST_MAX_LENGTH) }))
   # and we're done!
