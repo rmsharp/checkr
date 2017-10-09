@@ -9,7 +9,7 @@ test_that("simple errors", {
 test_that("functions", {
   expect_true(validate(function(x) x %is% "function"))
   expect_true(validate(c %is% "function"))
-  expect_true(validate(checkr:::validate %is% "function"))
+  expect_true(validate(validate %is% "function"))
   expect_true(validate(testthat::test_that %is% "function"))
 })
 

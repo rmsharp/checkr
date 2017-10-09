@@ -58,7 +58,7 @@ ensure <- function(checker_fn, preconditions = list(), postconditions = list()) 
     # Run the preconditions
     tryCatch({
       args <- lapply(args, function(expr) eval(expr, envir = parent.frame(3)))
-      checkr:::validate_(pre, env = args)
+      validate_(pre, env = args)
     }, error = function(e) {
         e <- as.character(e)
         flag <- "object '.*not found"
@@ -73,7 +73,7 @@ ensure <- function(checker_fn, preconditions = list(), postconditions = list()) 
     # http://stackoverflow.com/questions/7944809/assigning-null-to-a-list-element-in-r
     args["result"] <- list(do.call(checker_fn, args))
 
-    checkr:::validate_(post, env = args)
+    validate_(post, env = args)
     args$result
   }
 

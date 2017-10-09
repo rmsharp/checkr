@@ -1,6 +1,6 @@
 get_testing_frame <- function(formals, frame) {
   if (is.null(frame)) {
-    lapply(seq_along(formals), function(n) sample(checkr:::test_objects()))
+    lapply(seq_along(formals), function(n) sample(test_objects()))
   } else {
     if (!identical(formals, names(frame))) {
       stop("The custom testing_frame you submitted does not match the formals.")
@@ -33,7 +33,7 @@ function_test_objects <- function(fn = NULL, pre = NULL, frame = NULL) {
     if (length(formals) == 0) {
       stop("You cannot quickcheck a function with no arguments.")
     }
-    testing_frame <- checkr:::get_testing_frame(formals, frame)
+    testing_frame <- get_testing_frame(formals, frame)
     testing_frame <- tryCatch(lapply(seq_along(testing_frame), function(pos) {
       # First we try calculating each input independently so that we can maximize
       # the number of test samples.
@@ -62,22 +62,26 @@ function_test_objects <- function(fn = NULL, pre = NULL, frame = NULL) {
     })
   } else {
     formals <- names(formals(fn))
-    testing_frame <- checkr:::get_testing_frame(formals, frame)
+    testing_frame <- get_testing_frame(formals, frame)
   }
   names(testing_frame) <- formals
   testing_frame
 }
 
 #' Print function arguments
+#' 
+#' @importFrom utils capture.output
 #' @param x ANY. The object to print args for.
+#' @export
 #' @examples
+#' library(checkr)
 #' l <- list(x = seq(3), y = seq(4))
-#' checkr:::print_args(l)
+#' print_args(l)
 print_args <- function(x) {
   paste0(paste(names(x),
     unname(sapply(x, function(y) {
       # Correct for the tendency of capture.output to go over one string.
-      gsub("    ", "", paste0(capture.output(dput(y)), collapse = ""))
+      gsub("    ", "", paste0(utils::capture.output(dput(y)), collapse = ""))
     })), sep = " = "), collapse = ", ")
 }
 
@@ -114,7 +118,7 @@ function_name <- function(orig_function_name) {
 quickcheck <- function(fn, postconditions = NULL, verbose = TRUE, testthat = TRUE,
   frame = NULL) {
   post <- substitute(postconditions)
-  testing_frame <- checkr:::function_test_objects(fn, frame = frame)
+  testing_frame <- function_test_objects(fn, frame = frame)
   if (any(vapply(testing_frame, length, numeric(1)) == 0)) {
     stop("No quickcheck testing frame was generated. Make sure your preconditions aren't",
       " impossible to satisfy!")
@@ -127,7 +131,7 @@ quickcheck <- function(fn, postconditions = NULL, verbose = TRUE, testthat = TRU
       args <- lapply(testing_frame, `[[`, pos)
       tryCatch({
         result <- do.call(fn, args)
-        checkr:::validate_(post, env = list(result = result))
+        validate_(post, env = list(result = result))
       }, error = function(e) {
         failed <<- TRUE
       })

@@ -7,7 +7,7 @@
 #' @export
 validate <- function(...) {
   conditions <- substitute(list(...))
-  checkr:::validate_(conditions)
+  validate_(conditions)
 }
 
 #' Validate without NSE.
@@ -15,13 +15,14 @@ validate <- function(...) {
 #' @param env environment. An optional environment to evaluate within. Defaults to
 #' \code{parent.frame(2)}, which contains the variables in the scope immediately beyond
 #' the validate (though not the validate_) function.
-#' ## perhaps should not be exported since checkr:::validate_ is always used
+#' @export
 validate_ <- function(conditions, env = parent.frame(2)) {
   # Substituted R expressions have length > 1, so we need to wrap them in lists.
   if (conditions[[1]] != substitute(list) && is.call(conditions)) {
     conditions <- list(conditions)
   }
-  errors <- Filter(Negate(is.null), lapply(conditions, checkr:::verify_condition, env = env))
+  errors <- Filter(Negate(is.null), lapply(conditions, verify_condition, 
+                                           env = env))
   if (length(errors) > 0) {
     stop("Error on ", paste(errors, collapse = ", "), call. = FALSE)
   }
