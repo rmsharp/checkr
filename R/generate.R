@@ -96,7 +96,11 @@ installed_dataframes <- function() {
 
 
 #' Generates random R objects to be put into functions for testing purposes.
+#'
 #' @param objects list. The object frame to work from.
+#' @importFrom memoise memoise
+#' @importFrom methods is
+#' @importFrom utils tail
 test_objects_ <- function(objects) {
   testing_frame <- list()
   # start with one of each at random
@@ -163,6 +167,7 @@ test_objects_ <- function(objects) {
   testing_frame
 }
 
+#' @importFrom memoise memoise
 test_objects <- memoise::memoise(function(objects = default_objects()) {
   testing_frame <- list()
   GENERATIONS <- 3       # How many times should the test generation be repeated?
@@ -173,6 +178,8 @@ test_objects <- memoise::memoise(function(objects = default_objects()) {
 })
 
 #' Function to force reload the test object cache, if needed.
+#' 
+#' @importFrom memoise forget
 force_reload_test_objects <- function() {
   memoise::forget(test_objects)
   memoise::forget(default_objects)
