@@ -25,11 +25,10 @@ validate_ <- function(conditions, env = parent.frame(2)) {
   if (conditions[[1]] != substitute(list) && is.call(conditions)) {
     conditions <- list(conditions)
   }
-  errors <- Filter(Negate(is.null), lapply(conditions, verify_condition, 
+  errors <- Filter(Negate(is.null), lapply(conditions, verify_condition,
                                            env = env))
   if (length(errors) > 0) {
     stop("Error on ", paste(errors, collapse = ", "), call. = FALSE)
   }
   TRUE
 }
-

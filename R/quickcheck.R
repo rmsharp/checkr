@@ -69,7 +69,7 @@ function_test_objects <- function(fn = NULL, pre = NULL, frame = NULL) {
 }
 
 #' Print function arguments
-#' 
+#'
 #' @importFrom utils capture.output
 #' @param x ANY. The object to print args for.
 #' @export
