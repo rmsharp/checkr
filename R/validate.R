@@ -1,3 +1,7 @@
+verify_condition <- function(condition, env) {
+  if (identical(eval(condition, envir = env), FALSE)) {deparse(condition)}
+  else {NULL}
+}
 #' Validate checks that certain facts are true.
 #'
 #' @param ... list. A list of conditions to check.
@@ -29,7 +33,3 @@ validate_ <- function(conditions, env = parent.frame(2)) {
   TRUE
 }
 
-verify_condition <- function(condition, env) {
-  if (identical(eval(condition, envir = env), FALSE)) { deparse(condition) }
-  else { NULL }
-}
