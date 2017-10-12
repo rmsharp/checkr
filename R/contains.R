@@ -45,4 +45,3 @@ contains_ <- function(match_list, expected_class, exclusive) {
   }
   contains_(match_list, expected_class, exclusive = TRUE)
 }
-
