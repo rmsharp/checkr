@@ -1,3 +1,8 @@
+contains_ <- function(match_list, expected_class, exclusive) {
+  if (checkr::is.empty(match_list)) { return(FALSE) }
+  match_fn <- if (isTRUE(exclusive)) { all } else { any }
+  match_fn(vapply(match_list, `%is_%`, expected_class = expected_class, logical(1)))
+}
 #' Test if a list contains some elements of the desired class.
 #'
 #' @param match_list list. The list to test for class of the elements.
@@ -41,8 +46,3 @@
   contains_(match_list, expected_class, exclusive = TRUE)
 }
 
-contains_ <- function(match_list, expected_class, exclusive) {
-  if (checkr::is.empty(match_list)) { return(FALSE) }
-  match_fn <- if (isTRUE(exclusive)) { all } else { any }
-  match_fn(vapply(match_list, `%is_%`, expected_class = expected_class, logical(1)))
-}
